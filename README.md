@@ -23,6 +23,35 @@ Built as a portfolio project to demonstrate backend engineering practices: layer
 
 ---
 
+## Screenshots
+
+> Screenshots are added after first run. Place captures in `docs/images/` and they render here automatically.
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Swagger UI — full API surface</strong><br>
+      <img src="docs/images/swagger-overview.png" width="440" alt="Swagger UI overview">
+    </td>
+    <td align="center">
+      <strong>GitHub Actions — CI pipeline</strong><br>
+      <img src="docs/images/github-actions-success.png" width="440" alt="GitHub Actions passing">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <strong>Fault escalation — CRITICAL fault auto-creates a maintenance order</strong><br>
+      <img src="docs/images/fault-escalation.png" width="440" alt="Fault log POST with auto-order in response">
+    </td>
+    <td align="center">
+      <strong>Maintenance order lifecycle — asset resets to OPERATIONAL on completion</strong><br>
+      <img src="docs/images/maintenance-order-lifecycle.png" width="440" alt="Order status transition to COMPLETED">
+    </td>
+  </tr>
+</table>
+
+---
+
 ## Domain Overview
 
 The platform models a maintenance operation for industrial equipment (vehicles, cranes, compressors, generators, pumps). Three mechanisms automatically trigger a `MaintenanceOrder` without manual intervention:
