@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+      WHY spring-boot-starter-parent?
+      It's a "BOM" (Bill of Materials) — it pre-locks compatible versions for
+      every Spring dependency so you never get version-mismatch runtime errors.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.fleet</groupId>
+    <artifactId>maintenance</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>fleet-maintenance</name>
+    <description>Fleet and Asset Maintenance Platform</description>
+
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- ── Web ──────────────────────────────────────────────────────────
+             Pulls in Tomcat + Spring MVC. Everything that makes @RestController work.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- ── JPA / Hibernate ──────────────────────────────────────────────
+             ORM layer: maps Java classes → DB tables. You write Java, Hibernate
+             writes SQL. Also enables @Transactional.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- ── Bean Validation ──────────────────────────────────────────────
+             Enables @NotBlank, @NotNull, @Min etc. on request DTOs.
+             @Valid on a @RequestBody triggers validation before the method runs.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ── Actuator ─────────────────────────────────────────────────────
+             Adds /actuator/health, /actuator/info, /actuator/metrics endpoints.
+             Standard requirement at Airbus/MTU for production readiness probes.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- ── PostgreSQL JDBC driver ────────────────────────────────────────
+             runtime scope = not needed to compile, only to run.
+        -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ── Flyway ───────────────────────────────────────────────────────
+             Database migration tool. Instead of letting Hibernate auto-create
+             tables (which you'd never do in production), Flyway runs numbered
+             SQL scripts in order — making schema changes reproducible and auditable.
+        -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <!-- Required by Flyway 10+ — PostgreSQL support was extracted into its own module -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+
+        <!-- ── Lombok ───────────────────────────────────────────────────────
+             Annotation processor that generates boilerplate at compile time:
+             @Getter/@Setter, @Builder, @RequiredArgsConstructor, @Slf4j etc.
+             optional=true means it's NOT propagated to downstream dependencies.
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ── Springdoc OpenAPI (Swagger UI) ───────────────────────────────
+             Reads your @RestController annotations and auto-generates an
+             OpenAPI 3 spec + interactive Swagger UI at /swagger-ui.html.
+             Not managed by the Spring Boot BOM, so version is explicit.
+        -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
+        <!-- ── Test ─────────────────────────────────────────────────────────
+             Includes JUnit 5, Mockito, AssertJ, MockMvc — the full test stack.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ── Testcontainers ────────────────────────────────────────────────
+             Spins up a real Docker-based PostgreSQL container for integration tests.
+             No H2 in-memory fakes — tests run against the same DB engine as prod.
+             spring-boot-testcontainers is the Spring Boot 3.1+ integration that
+             wires containers directly into the ApplicationContext.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Exclude Lombok from the final JAR — it's compile-only -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
