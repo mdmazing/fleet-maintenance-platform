@@ -3,17 +3,16 @@
 # Result: the final image only contains the JRE + the JAR — not Maven, not source code.
 # This keeps the image small and without build tools in prod (security best practice).
 
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app
 
-# Copy Maven wrapper first — Docker caches this layer separately.
+# Copy pom.xml first — Docker caches this layer separately from source.
 # If only source changes, Docker reuses the cached dependency download layer.
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline -q
+COPY pom.xml ./
+RUN mvn dependency:go-offline -q
 
 COPY src ./src
-RUN ./mvnw package -DskipTests -q
+RUN mvn package -DskipTests -q
 
 # ── Runtime image ─────────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine
