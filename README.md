@@ -327,6 +327,14 @@ Completing the maintenance order updates the asset back to **OPERATIONAL**, demo
 
 ---
 
+### GitHub Actions — Automated build & test pipeline
+
+![GitHub Actions](docs/images/github-actions-success.png)
+
+Every push automatically triggers the CI workflow, which builds the application and runs the test suite.
+
+---
+
 ## License
 
 MIT
