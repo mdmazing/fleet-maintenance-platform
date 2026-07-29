@@ -301,6 +301,32 @@ Pipeline steps:
 
 ---
 
+## 📸 Application Screenshots
+
+### API Overview
+
+![Swagger Overview](docs/images/swagger-overview.png)
+
+Shows the available REST endpoints for Assets, Fault Logs, Maintenance Orders, and Technicians.
+
+---
+
+### Automatic Fault Escalation
+
+![Fault Escalation](docs/images/fault-escalation.png)
+
+Creating a **CRITICAL** fault automatically generates a maintenance order.
+
+---
+
+### Maintenance Order Lifecycle
+
+![Maintenance Lifecycle](docs/images/maintenance-order-lifecycle.png)
+
+Completing the maintenance order updates the asset back to **OPERATIONAL**, demonstrating the complete maintenance workflow.
+
+---
+
 ## License
 
 MIT
